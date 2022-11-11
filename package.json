@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node_modules/.bin/webpack-dev-server --config ./build/webpack.config.dev.js",
     "build": "webpack --config ./build/webpack.config.prod.js",
-    "build:gh-pages": "webpack --mode production --output-public-path /model-generator",
+    "build:gh-pages": "webpack --config ./build/webpack.config.prod.js --output-public-path /model-generator",
     "predeploy": "npm run build:gh-pages",
     "deploy": "gh-pages -d dist"
   },
