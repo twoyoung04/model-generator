@@ -271,17 +271,9 @@ export class LatheApp {
     let u_matrixLoc = gl.getUniformLocation(program, "u_matrix")
 
     gl.uniformMatrix4fv(u_matrixLoc, false, u_matrix)
-    // let tempRes = []
-    // for (let i = 0; i < this._position.length; ) {
-    //   let x = this._position[i++]
-    //   let y = this._position[i++]
-    //   let z = this._position[i++]
-    //   tempRes.push(m4.transformPoint(u_matrix, [x, y, z]))
-    // }
-    // console.log("tempRes: ", tempRes)
-    // debugger
+
     // todo: 设置纹理
-    // gl.uni
+
     let n = this.bufferInfo.numElements
 
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0)
@@ -299,6 +291,8 @@ export class LatheApp {
   private handleSvgChange(e) {
     const { pathStr } = e
     if (!pathStr) return
+    // todo: 完整判断 svg 字符串有效性
+    if (!(pathStr.includes("C") || pathStr.includes("c"))) return
     this.svg = pathStr
     this.update()
   }
