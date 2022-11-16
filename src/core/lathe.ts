@@ -139,7 +139,7 @@ export class LatheApp {
     this.worldMatrix = m4.identity()
     // this is just a default value
     this.svg =
-      "M14.4 24.35C27.3 33.85 16.8 44.75 15.3 45.55C13.8 46.35 17.8 52.05 21.1 55.05"
+      "M76.5 12.9C94.6 22.6 90.1 30.4 83.2 28.4C76.3 26.4 78.9 48.7 80.2 51.9"
 
     this.update()
     this.tick()
@@ -201,6 +201,7 @@ export class LatheApp {
 
   private generateMesh(svg: string, bufferInfo?) {
     const curvePoints = parseSVGPath(svg)
+
     const data = this.data
 
     const tempPoints = getPointsOnBezierCurves(curvePoints, data.tolerance)
@@ -220,7 +221,7 @@ export class LatheApp {
     )
     const arrays = generateNormals(tempArrays, data.maxAngle)
 
-    const extents = getExtents(tempArrays.position)
+    const extents = getExtents(arrays.position)
 
     // 该判断避免重复创建 buffer
     bufferInfo = createBufferInfoFromArrays(this.gl, this.program, arrays)
@@ -253,7 +254,7 @@ export class LatheApp {
 
     // Compute the camera's matrix using look at.
     const midY = lerp(extents.min[1], extents.max[1], 0.5)
-    const sizeToFitOnScreen = (extents.max[1] - extents.min[1]) * 0.6
+    const sizeToFitOnScreen = (extents.max[1] - extents.min[1]) * 0.8
     const distance = sizeToFitOnScreen / Math.tan(fieldOfViewRadians * 0.5)
     const cameraPosition = [0, midY, distance]
     const target = [0, midY, 0]
@@ -270,6 +271,15 @@ export class LatheApp {
     let u_matrixLoc = gl.getUniformLocation(program, "u_matrix")
 
     gl.uniformMatrix4fv(u_matrixLoc, false, u_matrix)
+    // let tempRes = []
+    // for (let i = 0; i < this._position.length; ) {
+    //   let x = this._position[i++]
+    //   let y = this._position[i++]
+    //   let z = this._position[i++]
+    //   tempRes.push(m4.transformPoint(u_matrix, [x, y, z]))
+    // }
+    // console.log("tempRes: ", tempRes)
+    // debugger
     // todo: 设置纹理
     // gl.uni
     let n = this.bufferInfo.numElements
@@ -454,7 +464,7 @@ function parseSVGPath(svg) {
   for (let i = 0; i < points.length; ++i) {
     const p = points[i]
     p[0] = p[0] - min[0]
-    p[1] = p[1] - min[0] - halfRange[1]
+    p[1] = p[1]
   }
   return points
 }
